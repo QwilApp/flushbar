@@ -40,7 +40,7 @@ class HomePage extends StatelessWidget {
                   )
                     ..title = "Bottom"
                     ..message = _message()
-                    ..duration = Duration(seconds: 3)
+                    ..showDuration = Duration(seconds: 3)
                     ..show(context);
                 },
               ),
@@ -53,7 +53,7 @@ class HomePage extends StatelessWidget {
                   Flushbar(flushbarPosition: FlushbarPosition.TOP)
                     ..title = "TOP"
                     ..message = _message()
-                    ..duration = Duration(seconds: 3)
+                    ..showDuration = Duration(seconds: 3)
                     ..show(context);
                 },
               ),
@@ -69,7 +69,7 @@ class HomePage extends StatelessWidget {
                   )
                     ..title = "Top with Linear animation"
                     ..message = _message()
-                    ..duration = Duration(seconds: 3)
+                    ..showDuration = Duration(seconds: 3)
                     ..show(context);
                 },
               ),
@@ -84,7 +84,7 @@ class HomePage extends StatelessWidget {
                       forwardAnimationCurve: Curves.bounceInOut)
                     ..title = "Top with bounceInOut animation"
                     ..message = _message()
-                    ..duration = Duration(seconds: 3)
+                    ..showDuration = Duration(seconds: 3)
                     ..show(context);
                 },
               ),
@@ -100,7 +100,7 @@ class HomePage extends StatelessWidget {
                   )
                     ..title = "Top with easeInOut animation"
                     ..message = _message()
-                    ..duration = Duration(seconds: 3)
+                    ..showDuration = Duration(seconds: 3)
                     ..show(context);
                 },
               ),
@@ -116,7 +116,7 @@ class HomePage extends StatelessWidget {
                   )
                     ..title = "Top with elasticInOut animation"
                     ..message = _message()
-                    ..duration = Duration(seconds: 3)
+                    ..showDuration = Duration(seconds: 3)
                     ..show(context);
                 },
               ),
@@ -132,7 +132,26 @@ class HomePage extends StatelessWidget {
                   )
                     ..title = "Top with fastOutSlowIn animation"
                     ..message = _message()
-                    ..duration = Duration(seconds: 3)
+                    ..showDuration = Duration(seconds: 3)
+                    ..show(context);
+                },
+              ),
+            ),
+            Container(
+              margin: EdgeInsets.symmetric(vertical: 5.0),
+              child: MaterialButton(
+                child: Text("Ease with click"),
+                onPressed: () {
+                  Flushbar(
+                      flushbarPosition: FlushbarPosition.TOP,
+                      forwardAnimationCurve: Curves.easeInOut,
+                      clickAction: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => SecondPage())))
+                    ..title = "Click is handled by flushbar"
+                    ..message = _message()
+                    ..showDuration = Duration(seconds: 3)
                     ..show(context);
                 },
               ),
@@ -144,4 +163,14 @@ class HomePage extends StatelessWidget {
   }
 
   String _message() => "Sample text to be shown in flushbar";
+}
+
+class SecondPage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text("This is second screen")),
+      body: Center(child: Text("Opened from Flushbar")),
+    );
+  }
 }

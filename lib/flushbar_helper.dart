@@ -15,7 +15,7 @@ class FlushbarHelper {
         color: Colors.green[300],
       )
       ..leftBarIndicatorColor = Colors.green[300]
-      ..duration = duration;
+      ..showDuration = duration;
   }
 
   /// Get an information notification flushbar
@@ -32,7 +32,7 @@ class FlushbarHelper {
         color: Colors.blue[300],
       )
       ..leftBarIndicatorColor = Colors.blue[300]
-      ..duration = duration;
+      ..showDuration = duration;
   }
 
   /// Get a error notification flushbar
@@ -49,7 +49,7 @@ class FlushbarHelper {
         color: Colors.red[300],
       )
       ..leftBarIndicatorColor = Colors.red[300]
-      ..duration = duration;
+      ..showDuration = duration;
   }
 
   /// Get a flushbar that can receive a user action through a button.
@@ -61,7 +61,7 @@ class FlushbarHelper {
     return Flushbar()
       ..title = title
       ..message = message
-      ..duration = duration
+      ..showDuration = duration
       ..mainButton = button;
   }
 
@@ -80,7 +80,7 @@ class FlushbarHelper {
         Icons.cloud_upload,
         color: Colors.blue[300],
       )
-      ..duration = duration
+      ..showDuration = duration
       ..showProgressIndicator = true
       ..progressIndicatorController = progressIndicatorController
       ..progressIndicatorBackgroundColor = progressIndicatorBackgroundColor;
@@ -89,7 +89,7 @@ class FlushbarHelper {
   /// Get a flushbar that shows an user input form.
   static Flushbar createInputFlushbar({@required Form textForm}) {
     return Flushbar()
-      ..duration = null
+      ..showDuration = null
       ..userInputForm = textForm;
   }
 }
