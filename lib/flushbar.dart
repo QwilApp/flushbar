@@ -66,7 +66,7 @@ class _FlushbarRoute<T> extends OverlayRoute<T> {
                 alignment: _animation,
                 child: Padding(
                   padding: EdgeInsets.all(flushbar.aroundPadding),
-                  child: flushbar.isDismissible ? _getDismissibleFlushbar(_builder) : _builder,
+                  child: flushbar.isDismissible ? _getDismissibleFlushbar(_builder, flushbar.dismissDirection) : _builder,
                 ),
               ),
               focused: true,
@@ -83,10 +83,11 @@ class _FlushbarRoute<T> extends OverlayRoute<T> {
   /// This string is a workaround until Dismissible supports a returning item
   String dismissibleKeyGen = "";
 
-  Widget _getDismissibleFlushbar(Widget child) {
-    return new Dismissible(
+  Widget _getDismissibleFlushbar(Widget child, DismissDirection direction) {
+    return Dismissible(
       resizeDuration: null,
       key: Key(dismissibleKeyGen),
+      direction: direction,
       onDismissed: (_) {
         dismissibleKeyGen += "1";
         _cancelTimer();
@@ -310,11 +311,12 @@ typedef void FlushbarStatusCallback(FlushbarStatus status);
 /// [mainButton] A [FlatButton] widget if you need an action from the user.
 /// [duration] How long until Flushbar will hide itself (be dismissed). To make it indefinite, leave it null.
 /// [isDismissible] Determines if the user can swipe to dismiss the bar. It is recommended that you set [duration] != null if [isDismissible] == false. If the user swipes Flushbar to dismiss it no value will be returned.
-/// [flushbarPosition] (final) Flushbar can be based on [FlushbarPosition.TOP] or on [FlushbarPosition.BOTTOM] of your screen. [FlushbarPosition.BOTTOM] is the default.
+/// [dismissDirection] Determines direction of flushbar dismissing. By default [DismissDirection.up] in complex with [FlushbarPosition.TOP]
+/// [flushbarPosition] (final) Flushbar can be based on [FlushbarPosition.TOP] or on [FlushbarPosition.BOTTOM] of your screen. [FlushbarPosition.TOP] is the default and [DismissDirection.up].
 /// [forwardAnimationCurve] (final) The [Curve] animation used when show() is called. [Curves.easeOut] is default.
 /// [reverseAnimationCurve] (final) The [Curve] animation used when dismiss() is called. [Curves.fastOutSlowIn] is default.
 /// [showProgressIndicator] true if you want to show a [LinearProgressIndicator].
-/// [progressIndicatorController] An optional [AnimationController] when you want to controll the progress of your [LinearProgressIndicator].
+/// [progressIndicatorController] An optional [AnimationController] when you want to control the progress of your [LinearProgressIndicator].
 /// [progressIndicatorBackgroundColor] a [LinearProgressIndicator] configuration parameter.
 /// [progressIndicatorValueColor] a [LinearProgressIndicator] configuration parameter.
 /// [userInputForm] A [TextFormField] in case you want a simple user input. Every other widget is ignored if this is not null.
@@ -335,11 +337,12 @@ class Flushbar<T extends Object> extends StatefulWidget {
     this.mainButton,
     this.duration,
     this.isDismissible = true,
+    this.dismissDirection = DismissDirection.up,
     this.showProgressIndicator = false,
     this.progressIndicatorController,
     this.progressIndicatorBackgroundColor,
     this.progressIndicatorValueColor,
-    this.flushbarPosition = FlushbarPosition.BOTTOM,
+    this.flushbarPosition = FlushbarPosition.TOP,
     this.forwardAnimationCurve = Curves.easeOut,
     this.reverseAnimationCurve = Curves.fastOutSlowIn,
   }) : super(key: key);
@@ -362,6 +365,7 @@ class Flushbar<T extends Object> extends StatefulWidget {
   Color progressIndicatorBackgroundColor;
   Animation<Color> progressIndicatorValueColor;
   bool isDismissible;
+  DismissDirection dismissDirection;
   double aroundPadding;
   double borderRadius;
   Form userInputForm;
