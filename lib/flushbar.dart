@@ -23,17 +23,13 @@ class _FlushbarRoute<T> extends OverlayRoute<T> {
   _configureAlignment(FlushbarPosition flushbarPosition) {
     switch (flushbar.flushbarPosition) {
       case FlushbarPosition.TOP:
-        {
-          _initialAlignment = Alignment(-1.0, -2.0);
-          _endAlignment = Alignment(-1.0, -1.0);
-          break;
-        }
+        _initialAlignment = Alignment(-1.0, -2.0);
+        _endAlignment = Alignment(-1.0, -1.0);
+        break;
       case FlushbarPosition.BOTTOM:
-        {
-          _initialAlignment = Alignment(-1.0, 2.0);
-          _endAlignment = Alignment(-1.0, 1.0);
-          break;
-        }
+        _initialAlignment = Alignment(-1.0, 2.0);
+        _endAlignment = Alignment(-1.0, 1.0);
+        break;
     }
   }
 
@@ -63,13 +59,10 @@ class _FlushbarRoute<T> extends OverlayRoute<T> {
             final Widget annotatedChild = Semantics(
               child: AlignTransition(
                 alignment: _animation,
-                child: Padding(
-                  padding: EdgeInsets.all(flushbar.aroundPadding),
-                  child: flushbar.isDismissible
-                      ? _getDismissibleFlushbar(
-                          _builder, flushbar.dismissDirection)
-                      : _builder,
-                ),
+                child: flushbar.isDismissible
+                    ? _getDismissibleFlushbar(
+                        _builder, flushbar.dismissDirection)
+                    : _builder,
               ),
               focused: true,
               scopesRoute: true,
@@ -103,7 +96,10 @@ class _FlushbarRoute<T> extends OverlayRoute<T> {
           navigator.removeRoute(this);
         }
       },
-      child: child,
+      child: Padding(
+        padding: EdgeInsets.all(flushbar.aroundPadding),
+        child: child,
+      ),
     );
   }
 
@@ -240,7 +236,9 @@ class _FlushbarRoute<T> extends OverlayRoute<T> {
     _result = result;
     _cancelTimer();
     if (_wasDismissedBySwipe) {
-      _controller.reset();
+      Timer(Duration(milliseconds: 200), () {
+        _controller.reset();
+      });
       _wasDismissedBySwipe = false;
     } else {
       _controller.reverse();
@@ -341,6 +339,7 @@ typedef void FlushbarStatusCallback(FlushbarStatus status);
 /// [progressIndicatorBackgroundColor] a [LinearProgressIndicator] configuration parameter.
 /// [progressIndicatorValueColor] a [LinearProgressIndicator] configuration parameter.
 /// [userInputForm] A [TextFormField] in case you want a simple user input. Every other widget is ignored if this is not null.
+// ignore: must_be_immutable
 class Flushbar<T extends Object> extends StatefulWidget {
   Flushbar({
     Key key,
@@ -587,7 +586,7 @@ class _FlushbarState<K extends Object> extends State<Flushbar>
     return Align(
       heightFactor: 1.0,
       child: Material(
-        color: Colors.transparent,
+        color: widget.backgroundColor,
         child: SafeArea(
           minimum: widget.flushbarPosition == FlushbarPosition.BOTTOM
               ? EdgeInsets.only(

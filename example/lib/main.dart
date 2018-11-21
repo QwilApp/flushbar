@@ -17,6 +17,11 @@ class YourAwesomeApp extends StatelessWidget {
     return MaterialApp(
       title: 'Just Sample Appp',
       home: HomePage(),
+      theme: ThemeData(
+        brightness: Brightness.light,
+        primaryColor: Colors.cyan[800],
+        accentColor: Colors.cyanAccent[400],
+      ),
     );
   }
 }
@@ -162,7 +167,9 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  String _message() => "Sample text to be shown in flushbar";
+  String _message() => '''Sample text to be shown in flushbar
+  Next line is here
+  Three lines is more than enough''';
 }
 
 class SecondPage extends StatelessWidget {
