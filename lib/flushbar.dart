@@ -48,6 +48,7 @@ class _FlushbarRoute<T> extends OverlayRoute<T> {
   bool _wasDismissedBySwipe = false;
 
   Timer _timer;
+  bool _shouldPopWhenCurrent = false;
 
   bool get opaque => false;
 
@@ -234,6 +235,15 @@ class _FlushbarRoute<T> extends OverlayRoute<T> {
     return super.didPop(result);
   }
 
+  @override
+  void didPopNext(Route nextRoute) {
+    if (_shouldPopWhenCurrent) {
+      _shouldPopWhenCurrent = false;
+      navigator.pop();
+    }
+    super.didPopNext(nextRoute);
+  }
+
   void _configureTimer() {
     if (flushbar.showDuration != null) {
       if (_timer != null && _timer.isActive) {
@@ -242,6 +252,8 @@ class _FlushbarRoute<T> extends OverlayRoute<T> {
       _timer = Timer(flushbar.showDuration, () {
         if (isCurrent) {
           navigator.pop();
+        } else {
+          _shouldPopWhenCurrent = true;
         }
       });
     } else {
